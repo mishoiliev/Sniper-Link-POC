@@ -1,8 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function VerifiedPage() {
+function VerifiedPageContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get('email');
 
@@ -38,15 +40,32 @@ export default function VerifiedPage() {
               'Your email has been successfully verified.'
             )}
           </p>
-          <a
+          <Link
             href="/"
             className="inline-block rounded-md bg-black px-6 py-2 font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-50 dark:text-black dark:hover:bg-zinc-200"
           >
             Continue
-          </a>
+          </Link>
         </div>
       </main>
     </div>
+  );
+}
+
+export default function VerifiedPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+        <main className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg dark:bg-zinc-900">
+          <div className="animate-pulse">
+            <div className="h-8 bg-zinc-200 rounded w-3/4 mb-4 dark:bg-zinc-700"></div>
+            <div className="h-4 bg-zinc-200 rounded w-1/2 dark:bg-zinc-700"></div>
+          </div>
+        </main>
+      </div>
+    }>
+      <VerifiedPageContent />
+    </Suspense>
   );
 }
 
